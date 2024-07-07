@@ -5,7 +5,6 @@ import TodoItemList from './components/TotoItemList';
 import { Priority, TodoItemProps } from './components/TodoItem';
 import Checkbox from 'expo-checkbox';
 import uuid from 'react-native-uuid';
-import CheckBox from '@react-native-community/checkbox';
 
 export default function App() {
   const [newTask,onChangeText] = useState("")
@@ -47,7 +46,8 @@ export default function App() {
       id:taskId,
       taskName:`${name}`,
       priority:cPrirority,
-      isChecked:false
+      isChecked:false,
+      onDelete:handleDeleteItem
     });
     setTaskId( uuid.v4());
     onChangeText("")
@@ -59,6 +59,14 @@ export default function App() {
     booleanArray[index] = isChecked
     updateCheckBoxesState(booleanArray)
   }
+
+  const handleDeleteItem = (id:String|number[])=>{
+    var newTaskList = [...tasklist]
+    const deleteIndex = newTaskList.findIndex( (item)=> item.id == id)
+    newTaskList.splice(deleteIndex,1)
+    updateTaskList(newTaskList)
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -88,7 +96,7 @@ export default function App() {
         <Text> Low</Text>
         </View>
       </View>
-      <TodoItemList itemList={tasklist} ></TodoItemList>
+      <TodoItemList itemList={tasklist} onDelete={(id : String|number[])=> handleDeleteItem(id)}></TodoItemList>
     </View>
   );
 }

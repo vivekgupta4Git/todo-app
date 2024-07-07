@@ -32,11 +32,8 @@ import { useState } from "react";
 .sort( (a,_)=> a.priority == Priority.MEDIUM ? -1 : 1)
 .sort( (a,_) => a.priority == Priority.HIGH ? -1 : 1) */
 
-type ItemListProps ={
-    itemList :TodoItemProps[]
-}
 
-export default function TodoItemList(itemListProps: ItemListProps){
+export default function TodoItemList(itemListProps : {itemList : TodoItemProps[],onDelete : (id:string|number[])=>void}){
    // const list = itemListProps.itemList
     //.sort( (a,_)=> a.priority == Priority.MEDIUM ? -1 : 1).sort( (a,_) => a.priority == Priority.HIGH ? -1 : 1)
     return <FlatList 
@@ -47,7 +44,8 @@ export default function TodoItemList(itemListProps: ItemListProps){
             id = {item.id}
             taskName={item.taskName}
             priority={item.priority}
-            isChecked={item.isChecked} />}
+            isChecked={item.isChecked}
+            onDelete={() => itemListProps.onDelete(item.id)}            />}
             ListHeaderComponent={()=> 
              <View style={{
                         flexDirection:'row',

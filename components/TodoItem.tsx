@@ -1,4 +1,4 @@
-import {View,Text,StyleSheet,Image} from 'react-native'
+import {View,Text,StyleSheet,Image, TouchableOpacity} from 'react-native'
 import {Checkbox} from 'expo-checkbox'
 import { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -13,7 +13,8 @@ export type TodoItemProps = {
     id : string|number[],
     taskName : string,
     priority : Priority,
-    isChecked : boolean
+    isChecked : boolean,
+    onDelete : (id:string|number[])=>void
 }
 
 export default function TodoItem(props : TodoItemProps){
@@ -23,9 +24,9 @@ export default function TodoItem(props : TodoItemProps){
             <View style={style.iconRow}>
             <Text style={{padding:8}}>{props.priority} </Text>
             <Checkbox style={{marginTop:4}} value={isChecked} onValueChange={setChecked} ></Checkbox>
-            <View style={{marginTop:2}}>
+            <TouchableOpacity style={{marginTop:2}} onPress={()=>props.onDelete(props.id)}>
             <Icon name="delete-forever" size={24}/>
-             </View>         
+             </TouchableOpacity>         
             </View>  
     </View>
 }
